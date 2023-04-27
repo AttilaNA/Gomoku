@@ -5,6 +5,12 @@ public class Game implements GameInterface {
     private int[][] board;
 
     public Game(int nRows, int nCols) {
+        board = new int[nRows][nCols];
+        for(int i = 0; i < nRows; i++){
+            for(int j = 0; j < nCols; j++) {
+                board[i][j] = 0;
+            }
+        }
     }
 
     public int[][] getBoard() {
