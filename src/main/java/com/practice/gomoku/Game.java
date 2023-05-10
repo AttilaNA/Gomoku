@@ -1,5 +1,6 @@
 package com.practice.gomoku;
 
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.regex.*;
 
@@ -11,7 +12,7 @@ public class Game implements GameInterface {
         nRows = (nRows > 26) ? 26 : nRows;
         nRows = (nRows < 5) ? 5 : nRows;
         nCols = (nCols > 26) ? 26 : nCols;
-        nCols = (nCols < 5) ? 5 : nRows;
+        nCols = (nCols < 5) ? 5 : nCols;
         board = new int[nRows][nCols];
         for(int i = 0; i < nRows; i++){
             for(int j = 0; j < nCols; j++) {
@@ -36,7 +37,10 @@ public class Game implements GameInterface {
         Matcher matcher = pattern.matcher(userInput);
         if(matcher.find()){
             int[] possibleMove = getArrayOfTwoIntegersFromUserInput(userInput.toLowerCase());
-            if(board[possibleMove[0]][possibleMove[1]] == 0){
+            if(Arrays.equals(possibleMove, new int[] {26, 26})){
+                return new int[] {26, 26};
+            }
+            else if (board[possibleMove[0]][possibleMove[1]] == 0){
                 return possibleMove;
             }
         }
@@ -51,6 +55,9 @@ public class Game implements GameInterface {
         int[] coordinate = new int[2];
         coordinate[0] = alphabet.indexOf(userInput.toCharArray()[0]);
         coordinate[1] = Integer.parseInt(userInput.substring(1)) - 1;
+        if(coordinate[0] > board.length - 1 || coordinate[1] > board[0].length - 1){
+            return new int[] {26, 26};
+        }
         return coordinate;
     }
 
