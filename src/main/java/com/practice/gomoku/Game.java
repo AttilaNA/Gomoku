@@ -8,11 +8,20 @@ public class Game implements GameInterface {
 
     private int[][] board;
 
+    private final int MIN_SIZE;
+
+    private final int MAX_SIZE;
+
+    private final int[] INVALID_MOVE;
+
     public Game(int nRows, int nCols) {
-        nRows = (nRows > 26) ? 26 : nRows;
-        nRows = (nRows < 5) ? 5 : nRows;
-        nCols = (nCols > 26) ? 26 : nCols;
-        nCols = (nCols < 5) ? 5 : nCols;
+        MIN_SIZE = 5;
+        MAX_SIZE = 26;
+        INVALID_MOVE = new int[] {MAX_SIZE, MAX_SIZE};
+        nRows = (nRows > MAX_SIZE) ? MAX_SIZE : nRows;
+        nRows = (nRows < MIN_SIZE) ? MIN_SIZE : nRows;
+        nCols = (nCols > MAX_SIZE) ? MAX_SIZE : nCols;
+        nCols = (nCols < MIN_SIZE) ? MIN_SIZE : nCols;
         board = new int[nRows][nCols];
         for(int i = 0; i < nRows; i++){
             for(int j = 0; j < nCols; j++) {
@@ -29,6 +38,10 @@ public class Game implements GameInterface {
         this.board = board;
     }
 
+    public int getMAX_SIZE() { return MAX_SIZE; }
+
+    public int[] getINVALID_MOVE() { return INVALID_MOVE; }
+
     public int[] getMove(int player) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Next move: ");
@@ -37,14 +50,14 @@ public class Game implements GameInterface {
         Matcher matcher = pattern.matcher(userInput);
         if(matcher.find()){
             int[] possibleMove = getArrayOfTwoIntegersFromUserInput(userInput.toLowerCase());
-            if(Arrays.equals(possibleMove, new int[] {26, 26})){
-                return new int[] {26, 26};
+            if(Arrays.equals(possibleMove, INVALID_MOVE)){
+                return INVALID_MOVE;
             }
             else if (board[possibleMove[0]][possibleMove[1]] == 0){
                 return possibleMove;
             }
         }
-        return new int[] {26, 26};
+        return INVALID_MOVE;
     }
 
     private int[] getArrayOfTwoIntegersFromUserInput(String userInput) {
@@ -56,7 +69,7 @@ public class Game implements GameInterface {
         coordinate[0] = alphabet.indexOf(userInput.toCharArray()[0]);
         coordinate[1] = Integer.parseInt(userInput.substring(1)) - 1;
         if(coordinate[0] > board.length - 1 || coordinate[1] > board[0].length - 1){
-            return new int[] {26, 26};
+            return INVALID_MOVE;
         }
         return coordinate;
     }
