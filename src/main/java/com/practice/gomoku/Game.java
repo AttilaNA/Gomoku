@@ -14,10 +14,13 @@ public class Game implements GameInterface {
 
     private final int[] INVALID_MOVE;
 
+    private int player;
+
     public Game(int nRows, int nCols) {
         MIN_SIZE = 5;
         MAX_SIZE = 26;
         INVALID_MOVE = new int[] {MAX_SIZE, MAX_SIZE};
+        player = 1;
         nRows = (nRows > MAX_SIZE) ? MAX_SIZE : nRows;
         nRows = (nRows < MIN_SIZE) ? MIN_SIZE : nRows;
         nCols = (nCols > MAX_SIZE) ? MAX_SIZE : nCols;
@@ -42,9 +45,11 @@ public class Game implements GameInterface {
 
     public int[] getINVALID_MOVE() { return INVALID_MOVE; }
 
+    public int getPlayer() { return player; }
+
     public int[] getMove(int player) {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Next move: ");
+        System.out.println("Player%d next move: ".formatted(player));
         String userInput = sc.next();
         Pattern pattern = Pattern.compile("^[a-zA-Z]([1-9]|1[0-9]|2[0-6])$");
         Matcher matcher = pattern.matcher(userInput);
@@ -79,6 +84,7 @@ public class Game implements GameInterface {
     }
 
     public void mark(int player, int row, int col) {
+        board[row][col] = player;
     }
 
     public boolean hasWon(int player, int howMany) {
@@ -99,5 +105,9 @@ public class Game implements GameInterface {
     }
 
     public void play(int howMany) {
+    }
+
+    public void changePlayer(int currentPlayer){
+        player = currentPlayer == 1 ? 2 : 1;
     }
 }
