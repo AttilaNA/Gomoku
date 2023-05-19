@@ -41,8 +41,6 @@ public class Game implements GameInterface {
         this.board = board;
     }
 
-    public int getMAX_SIZE() { return MAX_SIZE; }
-
     public int[] getINVALID_MOVE() { return INVALID_MOVE; }
 
     public int getPlayer() { return player; }
@@ -87,7 +85,35 @@ public class Game implements GameInterface {
         board[row][col] = player;
     }
 
-    public boolean hasWon(int player, int howMany) {
+    public boolean hasWon(int player) {
+        for(int i = 0; i < board.length; i++){
+            for(int j = 0; j < board[0].length - 4; j++){
+                if(board[i][j] == player && board[i][j+1] == player && board[i][j+2] == player && board[i][j+3] == player && board[i][j+4] == player){
+                    return true;
+                }
+            }
+        }
+        for(int i = 0; i < board.length - 4; i++){
+            for(int j = 0; j < board[0].length; j++){
+                if(board[i][j] == player && board[i+1][j] == player && board[i+2][j] == player && board[i+3][j] == player && board[i+4][j] == player){
+                    return true;
+                }
+            }
+        }
+        for(int i = 4; i < board.length; i++){
+            for(int j = 0; j < board[0].length - 4; j++){
+                if(board[i][j] == player && board[i-1][j+1] == player && board[i-2][j+2] == player && board[i-3][j+3] == player && board[i-4][j+4] == player){
+                    return true;
+                }
+            }
+        }
+        for(int i = 0; i < board.length - 4; i++){
+            for(int j = 0; j < board[0].length - 4; j++){
+                if(board[i][j] == player && board[i+1][j+1] == player && board[i+2][j+2] == player && board[i+3][j+3] == player && board[i+4][j+4] == player){
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
