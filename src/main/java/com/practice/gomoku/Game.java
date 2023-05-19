@@ -20,6 +20,8 @@ public class Game implements GameInterface {
 
     private int nCols;
 
+    private String alphabet;
+
     public Game(int nRowsInit, int nColsInit) {
         MIN_SIZE = 5;
         MAX_SIZE = 26;
@@ -34,6 +36,10 @@ public class Game implements GameInterface {
             for(int j = 0; j < nCols; j++) {
                 board[i][j] = 0;
             }
+        }
+        alphabet = "";
+        for(char c='A'; c <= 'Z'; c++){
+            alphabet += c;
         }
     }
 
@@ -56,7 +62,7 @@ public class Game implements GameInterface {
         Pattern pattern = Pattern.compile("^[a-zA-Z]([1-9]|1[0-9]|2[0-6])$");
         Matcher matcher = pattern.matcher(userInput);
         if(matcher.find()){
-            int[] possibleMove = getArrayOfTwoIntegersFromUserInput(userInput.toLowerCase());
+            int[] possibleMove = getArrayOfTwoIntegersFromUserInput(userInput.toUpperCase());
             if(Arrays.equals(possibleMove, INVALID_MOVE)){
                 return INVALID_MOVE;
             }
@@ -68,10 +74,6 @@ public class Game implements GameInterface {
     }
 
     private int[] getArrayOfTwoIntegersFromUserInput(String userInput) {
-        String alphabet = "";
-        for(char c='a'; c <= 'z'; c++){
-            alphabet += c;
-        }
         int[] coordinate = new int[2];
         coordinate[0] = alphabet.indexOf(userInput.toCharArray()[0]);
         coordinate[1] = Integer.parseInt(userInput.substring(1)) - 1;
@@ -133,6 +135,44 @@ public class Game implements GameInterface {
     }
 
     public void printBoard() {
+        StringBuilder stringBuilder = new StringBuilder();
+        createStringForColCoordinates(stringBuilder);
+        for (int i = 0; i < board.length; i++){
+            stringBuilder.append(" ");
+            stringBuilder.append(alphabet.charAt(i));
+            createStringForRow(stringBuilder, board[i]);
+        }
+        System.out.print(stringBuilder.toString());
+    }
+
+    private void createStringForRow(StringBuilder stringBuilder, int[] row){
+        for (int i: row) {
+            switch (i){
+                case 1:
+                    stringBuilder.append(" X ");
+                    break;
+                case 2:
+                    stringBuilder.append(" O ");
+                    break;
+                default:
+                    stringBuilder.append(" . ");
+            }
+        }
+        stringBuilder.append("\n");
+    }
+
+    private void createStringForColCoordinates(StringBuilder stringBuilder){
+        stringBuilder.append("  ");
+        for (int i = 0; i < nCols; i++){
+            switch (Integer.toString(i+1).length()){
+                case 2:
+                    stringBuilder.append(" %d".formatted(i + 1));
+                    break;
+                default:
+                    stringBuilder.append(" %d ".formatted(i + 1));
+            }
+        }
+        stringBuilder.append("\n");
     }
 
     public void printResult(int player) {
