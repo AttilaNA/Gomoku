@@ -118,7 +118,14 @@ public class Game implements GameInterface {
     }
 
     public boolean isFull() {
-        return false;
+        for (int[] row: board) {
+            for (int i: row) {
+                if(i == 0){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public void printBoard() {
