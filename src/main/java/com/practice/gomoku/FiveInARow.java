@@ -5,9 +5,9 @@ import java.util.Arrays;
 public class FiveInARow {
 
     public static void main(String[] args) {
-        Game game = new Game(30, 30);
+        Game game = new Game(1, 1);
         game.printBoard();
-        while (!game.hasWon(game.getPlayer())) {
+        while (!game.hasWon(game.getPlayer()) && !game.isFull()) {
             int[] move = game.getINVALID_MOVE();
             while (Arrays.equals(move, game.getINVALID_MOVE())) {
                 move = game.getMove(game.getPlayer());
@@ -18,6 +18,7 @@ public class FiveInARow {
             }
             game.printBoard();
         }
+        game.printResult(game.getPlayer());
         game.printBoard();
         game.enableAi(1);
         game.enableAi(2);

@@ -176,6 +176,12 @@ public class Game implements GameInterface {
     }
 
     public void printResult(int player) {
+        if(hasWon(player)){
+            System.out.println("%s has won!".formatted(player == 1? 'X' : 'O'));
+        }
+        if(isFull()){
+            System.out.println("It's a tie!");
+        }
     }
 
     public void enableAi(int player) {
