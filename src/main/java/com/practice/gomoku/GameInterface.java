@@ -6,7 +6,6 @@ package com.practice.gomoku;
 public interface GameInterface {
     void setBoard(int[][] board);
     int[][] getBoard();
-
     int[] getMove(int player);
     int[] getAiMove(int player);
     void mark(int player, int row, int col);
@@ -15,5 +14,5 @@ public interface GameInterface {
     void printBoard();
     void printResult(int player);
     void enableAi(int player);
-    void play(int howMany);
+    void play();
 }

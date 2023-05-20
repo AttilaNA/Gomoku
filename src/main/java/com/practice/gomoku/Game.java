@@ -51,10 +51,6 @@ public class Game implements GameInterface {
         this.board = board;
     }
 
-    public int[] getINVALID_MOVE() { return INVALID_MOVE; }
-
-    public int getPlayer() { return player; }
-
     public int[] getMove(int player) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Player%d next move: ".formatted(player));
@@ -187,7 +183,21 @@ public class Game implements GameInterface {
     public void enableAi(int player) {
     }
 
-    public void play(int howMany) {
+    public void play() {
+        printBoard();
+        while (!hasWon(player) && !isFull()) {
+            int[] move = INVALID_MOVE;
+            while (Arrays.equals(move, INVALID_MOVE)) {
+                move = getMove(player);
+            }
+            mark(player, move[0], move[1]);
+            if (!hasWon(player)) {
+                changePlayer(player);
+            }
+            printBoard();
+        }
+        printResult(player);
+        printBoard();
     }
 
     public void changePlayer(int currentPlayer){
