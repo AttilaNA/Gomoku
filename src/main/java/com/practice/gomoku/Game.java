@@ -28,9 +28,9 @@ public class Game implements GameInterface {
         INVALID_MOVE = new int[] {MAX_SIZE, MAX_SIZE};
         player = 1;
         nRows = (nRowsInit > MAX_SIZE) ? MAX_SIZE : nRowsInit;
-        nRows = (nRowsInit < MIN_SIZE) ? MIN_SIZE : nRowsInit;
+        nRows = (nRows < MIN_SIZE) ? MIN_SIZE : nRows;
         nCols = (nColsInit > MAX_SIZE) ? MAX_SIZE : nColsInit;
-        nCols = (nColsInit < MIN_SIZE) ? MIN_SIZE : nColsInit;
+        nCols = (nCols < MIN_SIZE) ? MIN_SIZE : nCols;
         board = new int[nRows][nCols];
         for(int i = 0; i < nRows; i++){
             for(int j = 0; j < nCols; j++) {
