@@ -14,6 +14,8 @@ public class Game implements GameInterface {
 
     private final int[] INVALID_MOVE;
 
+    private final int[] QUIT_MOVE;
+
     private int player;
 
     private int nRows;
@@ -26,6 +28,7 @@ public class Game implements GameInterface {
         MIN_SIZE = 5;
         MAX_SIZE = 26;
         INVALID_MOVE = new int[] {MAX_SIZE, MAX_SIZE};
+        QUIT_MOVE = new int[] { MAX_SIZE + 1, MAX_SIZE + 1 };
         player = 1;
         nRows = (nRowsInit > MAX_SIZE) ? MAX_SIZE : nRowsInit;
         nRows = (nRows < MIN_SIZE) ? MIN_SIZE : nRows;
@@ -55,6 +58,9 @@ public class Game implements GameInterface {
         Scanner sc = new Scanner(System.in);
         System.out.println("Player%d next move: ".formatted(player));
         String userInput = sc.next();
+        if(userInput.toLowerCase().equals("quit")){
+            return QUIT_MOVE;
+        }
         Pattern pattern = Pattern.compile("^[a-zA-Z]([1-9]|1[0-9]|2[0-6])$");
         Matcher matcher = pattern.matcher(userInput);
         if(matcher.find()){
@@ -173,10 +179,14 @@ public class Game implements GameInterface {
 
     public void printResult(int player) {
         if(hasWon(player)){
+            System.out.println();
             System.out.println("%s has won!".formatted(player == 1? 'X' : 'O'));
+            printBoard();
         }
         if(isFull()){
+            System.out.println();
             System.out.println("It's a tie!");
+            printBoard();
         }
     }
 
@@ -190,6 +200,9 @@ public class Game implements GameInterface {
             while (Arrays.equals(move, INVALID_MOVE)) {
                 move = getMove(player);
             }
+            if(move == QUIT_MOVE){
+                break;
+            }
             mark(player, move[0], move[1]);
             if (!hasWon(player)) {
                 changePlayer(player);
@@ -197,7 +210,6 @@ public class Game implements GameInterface {
             printBoard();
         }
         printResult(player);
-        printBoard();
     }
 
     public void changePlayer(int currentPlayer){
